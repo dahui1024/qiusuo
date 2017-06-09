@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd"
+	default-lazy-init="true">
+
+	<description>Mongo</description>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:config/mongo.properties</value>
+		</property>
+	</bean>
+
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.bbcow.qiusuo.mongo" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />
+	</context:component-scan>
+
+	<!--  -->
+	<bean id="mongoClient" class="com.bbcow.qiusuo.mongo.client.MongoClientFactoryBean">
+		<property name="userName" value="${userName}" />
+		<property name="password" value="${password}" />
+		<property name="dataBaseName" value="${dataBaseName}" />
+		<property name="servers" value="${servers}" />
+		<property name="connectTimeout" value="${connectTimeout}" />
+		<property name="maxWaitTime" value="${maxWaitTime}" />
+		<property name="connectionsPerHost" value="${connectionsPerHost}" />
+		<property name="maxConnectionIdleTime" value="${maxConnectionIdleTime}" />
+		<property name="maxConnectionLifeTime" value="${maxConnectionLifeTime}" />
+	</bean>
+	
+	<bean id="morphia" class="com.bbcow.qiusuo.mongo.client.MorphiaFactoryBean">
+		<property name="mapPackages">
+			<array>
+				<value>com.bbcow.qiusuo.mongo.entity</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="datastore" class="com.bbcow.qiusuo.mongo.client.DatastoreFactoryBean">
+		<property name="morphia" ref="morphia" />
+		<property name="mongoClient" ref="mongoClient" />
+		<property name="dbName" value="${dataBaseName}" />
+		<property name="toEnsureIndexes" value="${toEnsureIndexes}" />
+		<property name="toEnsureCaps" value="${toEnsureCaps}" />
+	</bean>
+
+</beans>
