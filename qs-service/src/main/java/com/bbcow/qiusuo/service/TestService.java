@@ -5,12 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bbcow.qiusuo.mongo.TestDAO;
+import com.bbcow.qiusuo.mongo.UserDAO;
 
 @Service
 public class TestService {
 	@Autowired
-	private TestDAO testDAO;
+	private UserDAO testDAO;
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	public void test(){

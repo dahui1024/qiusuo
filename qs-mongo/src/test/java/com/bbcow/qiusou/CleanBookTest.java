@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import com.bbcow.qiusuo.mongo.client.DatastoreFactoryBean;
+import com.bbcow.qiusuo.mongo.UserDAO;
 
 @ContextConfiguration(locations = { "/applicationContext-mongo.xml" })
 public class CleanBookTest extends AbstractJUnit4SpringContextTests{
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	DatastoreFactoryBean datastore;
+	UserDAO userDAO;
 	@Test
 	public void test(){
-		logger.info("---");
+		userDAO.test();
 	}
 }
